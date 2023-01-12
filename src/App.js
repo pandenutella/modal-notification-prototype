@@ -9,8 +9,6 @@ import NotificationsPage from "./pages/NotificationsPage";
 const App = () => {
   const { initialize, initialized, showAutomatic } = useNotifications();
 
-  console.log(process.env.PUBLIC_URL);
-
   useEffect(() => {
     initialize();
   }, []);
