@@ -1,14 +1,7 @@
-import { Layout } from "antd";
-import Footer from "./components/layout/Footer";
+import PageLayout from "./components/layout/PageLayout";
 
 const App = () => {
-  return (
-    <Layout style={{ minHeight: "100vh" }}>
-      <Layout.Header></Layout.Header>
-      <Layout.Content></Layout.Content>
-      <Footer />
-    </Layout>
-  );
+  return <PageLayout></PageLayout>;
 };
 
 export default App;
