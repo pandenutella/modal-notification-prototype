@@ -2,34 +2,76 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   findAll,
   selectNotifications,
-  setVisibleKeys,
+  setVisibleData,
+  toggleVisibleDataChecked,
 } from "../redux/slices/notifications.slice";
+
+const getLocalStorageHiddenNotifications = () =>
+  JSON.parse(localStorage.getItem("hidden-notifications")) ?? [];
 
 const useNotifications = () => {
   const dispatch = useDispatch();
-  const { data } = useSelector(selectNotifications);
+  const { data, visibleData, initialized } = useSelector(selectNotifications);
 
-  const initialize = () => {
-    dispatch(findAll());
-  };
+  const initialize = () => dispatch(findAll());
 
   const showAutomatic = () => {
-    const visibleKeys = data
-      .filter((notification) => !notification.manual)
+    const hiddenNotifications = getLocalStorageHiddenNotifications();
+
+    const visibleData = data
+      .filter((notification) => notification.automatic)
+      .filter((notification) => !hiddenNotifications.includes(notification.key))
       .map((notification) => notification.key);
 
-    dispatch(setVisibleKeys(visibleKeys));
+    dispatch(setVisibleData(visibleData));
   };
 
   const showManual = (keys) => {
-    dispatch(setVisibleKeys(keys));
+    const hiddenNotifications = getLocalStorageHiddenNotifications();
+
+    const visibleData = keys.filter(
+      (key) => !hiddenNotifications.includes(key)
+    );
+
+    dispatch(setVisibleData(visibleData));
+  };
+  const back = () => dispatch(setVisibleData([]));
+
+  const doNotShowAgain = () => {
+    const keysToHidePermanently = visibleData
+      .filter((d) => d.checked)
+      .map((d) => d.key);
+
+    if (keysToHidePermanently.length) {
+      const oldHiddenNotifications = getLocalStorageHiddenNotifications();
+
+      const newHiddenNotifications = [
+        ...oldHiddenNotifications,
+        ...keysToHidePermanently,
+      ]
+        .filter((key, index, array) => array.indexOf(key) === index)
+        .sort();
+
+      localStorage.setItem(
+        "hidden-notifications",
+        JSON.stringify(newHiddenNotifications)
+      );
+    }
+
+    dispatch(setVisibleData([]));
   };
 
-  const hide = () => {
-    dispatch(setVisibleKeys([]));
-  };
+  const toggleChecked = (key) => dispatch(toggleVisibleDataChecked(key));
 
-  return { initialize, showAutomatic, showManual, hide };
+  return {
+    initialize,
+    initialized,
+    showAutomatic,
+    showManual,
+    back,
+    doNotShowAgain,
+    toggleChecked,
+  };
 };
 
 export default useNotifications;

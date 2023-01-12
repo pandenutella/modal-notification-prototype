@@ -1,17 +1,23 @@
 import { useEffect } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import PageLayout from "./components/layout/PageLayout";
-import NotificationManager from "./components/NotificationManager";
+import NotificationManager from "./components/notification/NotificationManager";
 import useNotifications from "./hooks/useNotifications";
 import HomePage from "./pages/HomePage";
 import NotificationsPage from "./pages/NotificationsPage";
 
 const App = () => {
-  const { initialize } = useNotifications();
+  const { initialize, initialized, showAutomatic } = useNotifications();
 
   useEffect(() => {
     initialize();
   }, []);
+
+  useEffect(() => {
+    if (!initialized) return;
+
+    showAutomatic();
+  }, [initialized]);
 
   return (
     <BrowserRouter>

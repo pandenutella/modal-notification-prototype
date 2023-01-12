@@ -25,27 +25,34 @@ const slice = createSlice({
   name: "notifications",
   initialState: {
     data: [],
-    visibleKeys: [],
-    fetching: false,
+    visibleData: [],
+    initialized: false,
   },
   reducers: {
     findAllRequest: (state) => {
       state.data = [];
-      state.visibleKeys = [];
-      state.fetching = true;
+      state.visibleData = [];
+      state.initialized = false;
     },
     findAllSuccess: (state, { payload }) => {
       state.data = payload;
-      state.visibleKeys = [];
-      state.fetching = false;
+      state.visibleData = [];
+      state.initialized = true;
     },
     findAllFailure: (state) => {
       state.data = [];
-      state.visibleKeys = [];
-      state.fetching = false;
+      state.visibleData = [];
+      state.initialized = false;
     },
-    setVisibleKeys: (state, { payload }) => {
-      state.visibleKeys = payload;
+    setVisibleData: (state, { payload }) => {
+      state.visibleData = payload.map((key) => ({ key, checked: false }));
+    },
+    toggleVisibleDataChecked: (state, { payload }) => {
+      state.visibleData = state.visibleData.map((notification) => {
+        if (notification.key !== payload) return notification;
+
+        return { ...notification, checked: !notification.checked };
+      });
     },
   },
 });
@@ -56,6 +63,7 @@ export const {
   findAllRequest,
   findAllSuccess,
   findAllFailure,
-  setVisibleKeys,
+  setVisibleData,
+  toggleVisibleDataChecked,
 } = slice.actions;
 export default slice.reducer;
