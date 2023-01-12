@@ -29,9 +29,11 @@ const useNotifications = () => {
   const showManual = (keys) => {
     const hiddenNotifications = getLocalStorageHiddenNotifications();
 
-    const visibleData = keys.filter(
-      (key) => !hiddenNotifications.includes(key)
-    );
+    const visibleData = data
+      .filter((notification) => !notification.automatic)
+      .filter((notification) => !hiddenNotifications.includes(notification.key))
+      .filter((notification) => keys.includes(notification.key))
+      .map((notification) => notification.key);
 
     dispatch(setVisibleData(visibleData));
   };

@@ -6,7 +6,7 @@ const PageLayout = ({ children }) => {
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Header />
-      <Layout.Content>{children}</Layout.Content>
+      <Layout.Content style={{ padding: 20 }}>{children}</Layout.Content>
       <Footer />
     </Layout>
   );
