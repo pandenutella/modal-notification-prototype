@@ -25,23 +25,37 @@ const slice = createSlice({
   name: "notifications",
   initialState: {
     data: [],
+    visibleKeys: [],
     fetching: false,
   },
   reducers: {
     findAllRequest: (state) => {
       state.data = [];
+      state.visibleKeys = [];
       state.fetching = true;
     },
     findAllSuccess: (state, { payload }) => {
       state.data = payload;
+      state.visibleKeys = [];
       state.fetching = false;
     },
     findAllFailure: (state) => {
       state.data = [];
+      state.visibleKeys = [];
       state.fetching = false;
+    },
+    setVisibleKeys: (state, { payload }) => {
+      state.visibleKeys = payload;
     },
   },
 });
 
-export const { findAllRequest, findAllSuccess, findAllFailure } = slice.actions;
+export const selectNotifications = (state) => state.notifications;
+
+export const {
+  findAllRequest,
+  findAllSuccess,
+  findAllFailure,
+  setVisibleKeys,
+} = slice.actions;
 export default slice.reducer;
