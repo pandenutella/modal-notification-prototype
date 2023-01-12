@@ -45,7 +45,11 @@ const useNotifications = () => {
       .map((d) => d.key);
 
     if (keysToHidePermanently.length) {
-      const oldHiddenNotifications = getLocalStorageHiddenNotifications();
+      const existingKeys = data.map((notification) => notification.key);
+      const oldHiddenNotifications =
+        getLocalStorageHiddenNotifications().filter((key) =>
+          existingKeys.includes(key)
+        );
 
       const newHiddenNotifications = [
         ...oldHiddenNotifications,
