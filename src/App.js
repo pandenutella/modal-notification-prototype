@@ -1,9 +1,12 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import PageLayout from "./components/layout/PageLayout";
+import useLoadNotifications from "./hooks/useLoadNotifications";
 import HomePage from "./pages/HomePage";
 import NotificationsPage from "./pages/NotificationsPage";
 
 const App = () => {
+  useLoadNotifications();
+
   return (
     <BrowserRouter>
       <PageLayout>
