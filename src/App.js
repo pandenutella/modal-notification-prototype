@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import PageLayout from "./components/layout/PageLayout";
 import NotificationManager from "./components/notification/NotificationManager";
 import useNotifications from "./hooks/useNotifications";
@@ -20,7 +20,7 @@ const App = () => {
   }, [initialized]);
 
   return (
-    <HashRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <PageLayout>
         <Routes>
           <Route path="/home" element={<HomePage />} />
@@ -29,7 +29,7 @@ const App = () => {
         </Routes>
         <NotificationManager />
       </PageLayout>
-    </HashRouter>
+    </BrowserRouter>
   );
 };
 
