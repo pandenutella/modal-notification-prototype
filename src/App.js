@@ -9,6 +9,8 @@ import NotificationsPage from "./pages/NotificationsPage";
 const App = () => {
   const { initialize, initialized, showAutomatic } = useNotifications();
 
+  console.log(process.env.PUBLIC_URL);
+
   useEffect(() => {
     initialize();
   }, []);
@@ -20,7 +22,7 @@ const App = () => {
   }, [initialized]);
 
   return (
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <BrowserRouter basename={`/${process.env.PUBLIC_URL}`}>
       <PageLayout>
         <Routes>
           <Route path="/home" element={<HomePage />} />
