@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import useNotifications from "../../hooks/useNotifications";
 import { selectNotifications } from "../../redux/slices/notifications.slice";
 
-const NotificationManager = () => {
+const NotificationHandler = () => {
   const { data, visibleData } = useSelector(selectNotifications);
   const { doNotShowAgain, back, toggleChecked } = useNotifications();
 
@@ -59,4 +59,4 @@ const NotificationManager = () => {
   );
 };
 
-export default NotificationManager;
+export default NotificationHandler;
