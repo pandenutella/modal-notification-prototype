@@ -5,8 +5,9 @@ import useNotifications from "../../hooks/useNotifications";
 import { selectNotifications } from "../../redux/slices/notifications.slice";
 
 const NotificationHandler = () => {
-  const { data, visibleData } = useSelector(selectNotifications);
-  const { doNotShowAgain, back, toggleChecked } = useNotifications();
+  const { visibleData } = useSelector(selectNotifications);
+  const { doNotShowAgain, back, toggleChecked, notifications } =
+    useNotifications();
 
   const visibleKeys = visibleData.map((d) => d.key);
   const visibleDataString = visibleData
@@ -16,7 +17,7 @@ const NotificationHandler = () => {
   const handleCheck = (key) => () => toggleChecked(key);
 
   const items = useMemo(() => {
-    return data
+    return notifications
       .filter((notification) => visibleKeys.includes(notification.key))
       .map((notification) => {
         const checked = visibleData.find(

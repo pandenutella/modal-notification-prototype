@@ -70,6 +70,7 @@ const useNotifications = () => {
   const toggleChecked = (key) => dispatch(toggleVisibleDataChecked(key));
 
   return {
+    notifications: data,
     initialize,
     initialized,
     showAutomatic,
